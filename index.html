@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards - Vocabulary B1 & C1</title>
+    <style>
+        :root {
+            --b1-vocab: #4285F4;
+            --c1-vocab: #EA4335;
+            --business: #34A853;
+            --academic: #FBBC05;
+            --phrasal-b2: #9C27B0;
+            --idioms-c1: #FF6D00;
+            --collocations: #00BFA5;
+            --practice: #7B1FA2;
+            --highlight: #AA00FF;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4eaf1 100%);
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            border-left: 8px solid var(--c1-vocab);
+            border-right: 8px solid var(--b1-vocab);
+        }
+        
+        h1 {
+            color: #2d3748;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .level-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .b1-badge {
+            background: var(--b1-vocab);
+            color: white;
+        }
+        
+        .c1-badge {
+            background: var(--c1-vocab);
+            color: white;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+        
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .category-btn {
+            padding: 10px 18px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .category-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .b1-btn { background-color: var(--b1-vocab); color: white; }
+        .c1-btn { background-color: var(--c1-vocab); color: white; }
+        .business-btn { background-color: var(--business); color: white; }
+        .academic-btn { background-color: var(--academic); }
+        .phrasal-b2-btn { background-color: var(--phrasal-b2); color: white; }
+        .idioms-c1-btn { background-color: var(--idioms-c1); color: white; }
+        .collocations-btn { background-color: var(--collocations); color: white; }
+        .practice-btn { background-color: var(--practice); color: white; }
+        
+        .flashcards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        
+        .flashcard {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .flashcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .b1-vocab { border-color: var(--b1-vocab); }
+        .c1-vocab { border-color: var(--c1-vocab); }
+        .business { border-color: var(--business); }
+        .academic { border-color: var(--academic); }
+        .phrasal-b2 { border-color: var(--phrasal-b2); }
+        .idioms-c1 { border-color: var(--idioms-c1); }
+        .collocations { border-color: var(--collocations); }
+        .practice { border-color: var(--practice); }
+        
+        .level-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .b1-indicator { background-color: var(--b1-vocab); }
+        .c1-indicator { background-color: var(--c1-vocab); }
+        .b2-indicator { background-color: var(--phrasal-b2); }
+        
+        .flashcard-header {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .flashcard-header .emoji {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .content-level-1, .content-level-2, .content-level-3 {
+            display: none;
+        }
+        
+        .content-level-1.active, .content-level-2.active, .content-level-3.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .question {
+            color: #4a5568;
+            font-weight: 500;
+            margin-bottom: 15px;
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .answer {
+            background: #ebf8ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #4299e1;
+        }
+        
+        .explanation {
+            background: #f0fff4;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #48bb78;
+        }
+        
+        .examples {
+            background: #fff5f5;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid #f56565;
+        }
+        
+        .practice-content {
+            background: #f3e5f5;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 3px solid var(--practice);
+        }
+        
+        .vocab-word {
+            font-weight: 700;
+            color: #2b6cb0;
+            background: #e3f2fd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 2px 0;
+        }
+        
+        .check {
+            color: #48bb78;
+            margin-right: 5px;
+        }
+        
+        .cross {
+            color: #f56565;
+            margin-right: 5px;
+        }
+        
+        .example-item {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .example-item:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #718096;
+        }
+        
+        .practice-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #fafafa;
+            border-radius: 6px;
+            border-left: 3px solid var(--practice);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .quiz-options {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .quiz-options li {
+            margin-bottom: 8px;
+            padding: 8px;
+            background: #f8fafc;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .quiz-options li:hover {
+            background: #e2e8f0;
+        }
+        
+        .correct {
+            background: #c6f6d5 !important;
+        }
+        
+        .incorrect {
+            background: #fed7d7 !important;
+        }
+        
+        .practice-question {
+            font-weight: 600;
+            color: var(--practice);
+            margin-bottom: 8px;
+        }
+        
+        .practice-answer {
+            padding: 8px;
+            background: #edf7ff;
+            border-radius: 6px;
+            margin-top: 8px;
+            display: none;
+        }
+        
+        .practice-answer.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        .show-answer {
+            background: var(--practice);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .tip {
+            background: #fff9c4;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            border-left: 3px solid #ffd600;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #718096;
+            font-size: 0.9rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .audio-btn {
+            background: var(--business);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 0;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .audio-btn i {
+            font-size: 0.8rem;
+        }
+        
+        .usage-note {
+            background: #e3f2fd;
+            padding: 8px;
+            border-radius: 6px;
+            margin: 5px 0;
+            font-size: 0.9rem;
+            border-left: 3px solid #2196F3;
+        }
+        
+        .synonyms {
+            background: #f3e5f5;
+            padding: 8px;
+            border-radius: 6px;
+            margin: 5px 0;
+            font-size: 0.9rem;
+            border-left: 3px solid #9C27B0;
+        }
+        
+        .formal-informal {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        
+        .formal, .informal {
+            flex: 1;
+            min-width: 140px;
+            padding: 8px;
+            border-radius: 6px;
+        }
+        
+        .formal {
+            background: #e8f5e9;
+            border-left: 3px solid #4CAF50;
+        }
+        
+        .informal {
+            background: #fff3e0;
+            border-left: 3px solid #FF9800;
+        }
+        
+        .formal-label, .informal-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .categories {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .category-btn {
+                width: 90%;
+                justify-content: center;
+            }
+            
+            .flashcards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .formal-informal {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-language"></i> FLASHCARDS - Vocabulary B1 & C1</h1>
+        <div class="level-badges">
+            <div class="badge b1-badge">Nível B1 - Intermediário</div>
+            <div class="badge c1-badge">Nível C1 - Avançado</div>
+        </div>
+        <p class="subtitle"><strong>VOCABULÁRIO AVANÇADO PARA COMUNICAÇÃO EFETIVA</strong></p>
+        <p>Clique nos flashcards para revelar o conteúdo. Use os botões para filtrar por categoria.</p>
+    </header>
+    
+    <!-- Categorias -->
+    <div class="categories">
+        <button class="category-btn b1-btn" onclick="filterCards('b1-vocab')"><i class="fas fa-star"></i> B1 Vocabulary</button>
+        <button class="category-btn c1-btn" onclick="filterCards('c1-vocab')"><i class="fas fa-rocket"></i> C1 Vocabulary</button>
+        <button class="category-btn business-btn" onclick="filterCards('business')"><i class="fas fa-briefcase"></i> Business</button>
+        <button class="category-btn academic-btn" onclick="filterCards('academic')"><i class="fas fa-graduation-cap"></i> Academic</button>
+        <button class="category-btn phrasal-b2-btn" onclick="filterCards('phrasal-b2')"><i class="fas fa-link"></i> Phrasal B2+</button>
+        <button class="category-btn idioms-c1-btn" onclick="filterCards('idioms-c1')"><i class="fas fa-brain"></i> C1 Idioms</button>
+        <button class="category-btn collocations-btn" onclick="filterCards('collocations')"><i class="fas fa-puzzle-piece"></i> Collocations</button>
+        <button class="category-btn practice-btn" onclick="filterCards('practice')"><i class="fas fa-pencil-alt"></i> Practice</button>
+        <button class="category-btn" onclick="filterCards('all')" style="background: #2d3748; color: white;"><i class="fas fa-eye"></i> Show All</button>
+    </div>
+    
+    <!-- Container de Flashcards -->
+    <div class="flashcards-container">
+        
+        <!-- B1 Vocabulary -->
+        <div class="flashcard b1-vocab" onclick="revealContent(this)">
+            <div class="level-indicator b1-indicator">B1</div>
+            <div class="flashcard-header">
+                <span class="emoji">📚</span> B1 Vocabulary - Essential
+            </div>
+            <div class="content-level-1">
+                <div class="question">Essential B1 vocabulary for intermediate communication</div>
+                <div class="answer">
+                    <span class="vocab-word">Accommodation</span>: housing, place to live<br>
+                    <span class="vocab-word">Appropriate</span>: suitable, fitting<br>
+                    <span class="vocab-word">Benefit</span>: advantage, positive aspect<br>
+                    <span class="vocab-word">Challenge</span>: difficult task, test<br>
+                    <span class="vocab-word">Efficient</span>: working well without waste<br>
+                    <span class="vocab-word">Significant</span>: important, considerable<br>
+                    <span class="vocab-word">Opportunity</span>: chance, favorable situation
+                </div>
+            </div>
+            <div class="content-level-2">
+                <div class="explanation">
+                    <p><span class="check">✅</span> B1 vocabulary allows more precise communication</p>
+                    <p><span class="check">✅</span> Move beyond basic words to more specific terms</p>
+                    <p><span class="check">✅</span> Essential for professional and academic contexts</p>
+                </div>
+            </div>
+            <div class="content-level-3">
+                <div class="examples">
+                    <p><strong>Examples:</strong></p>
+                    <div class="example-item">
+                        "Finding affordable <strong>accommodation</strong> in big cities is difficult."
+                        <button class="audio-btn" onclick="speakText('Finding affordable accommodation in big cities is difficult.')">
+                            <i class="fas fa-volume-up"></i> Listen
+                        </button>
+                    </div>
+                    <div class="example-item">
+                        "This job provides excellent <strong>benefits</strong> and <strong>opportunities</strong> for growth."
+                    </div>
+                    <div class="example-item">
+                        "We need to find a more <strong>efficient</strong> way to complete this task."
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- C1 Vocabulary -->
+        <div class="flashcard c1-vocab" onclick="revealContent(this)">
+            <div class="level-indicator c1-indicator">C1</div>
+            <div class="flashcard-header">
+                <span class="emoji">🚀</span> C1 Vocabulary - Advanced
+            </div>
+            <div class="content-level-1">
+                <div class="question">Advanced C1 vocabulary for sophisticated communication</div>
+                <div class="answer">
+                    <span class="vocab-word">Ambiguous</span>: unclear, having multiple meanings<br>
+                    <span class="vocab-word">Comprehensive</span>: complete, including everything<br>
+                    <span class="vocab-word">Deleterious</span>: harmful, damaging<br>
+                    <span class="vocab-word">Exacerbate</span>: make worse, aggravate<br>
+                    <span class="vocab-word">Inevitable</span>: unavoidable, certain to happen<br>
+                    <span class="vocab-word">Pragmatic</span>: practical, realistic<br>
+                    <span class="vocab-word">Ubiquitous</span>: found everywhere
+                </div>
+            </div>
+            <div class="content-level-2">
+                <div class="explanation">
+                    <p><span class="check">✅</span> C1 vocabulary shows mastery and precision</p>
+                    <p><span class="check">✅</span> Used in academic writing and professional reports</p>
+                    <p><span class="check">✅</span> Allows nuanced expression of complex ideas</p>
+                </div>
+            </div>
+            <div class="content-level-3">
+                <div class="examples">
+                    <p><strong>Examples:</strong></p>
+                    <div class="example-item">
+                        "The instructions were <strong>ambiguous</strong> and led to confusion."
+                        <button class="audio-btn" onclick="speakText('The instructions were ambiguous and led to confusion.')">
+                            <i class="fas fa-volume-up"></i> Listen
+                        </button>
+                    </div>
+                    <div class="example-item">
+                        "Smartphones have become <strong>ubiquitous</strong> in modern society."
+                    </div>
+                    <div class="example-item">
+                        "A <strong>pragmatic</strong> approach often yields better results than an idealistic one."
+                    </div>
+                </div>
+                <div class="usage-note">
+                    <strong>Note:</strong> C1 vocabulary is often more formal and precise than everyday language.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Business Vocabulary -->
+        <div class="flashcard business" onclick="revealContent(this)">
+            <div class="level-indicator b1-indicator">B1/C1</div>
+            <div class="flashcard-header">
+                <span class="emoji">💼</span> Business Vocabulary
+            </div>
+            <div class="content-level-1">
+                <div class="question">Essential business vocabulary for professional contexts</div>
+                <div class="answer">
+                    <span class="vocab-word">Revenue</span>: income, money earned<br>
+                    <span class="vocab-word">Stakeholder</span>: person with interest in business<br>
+                    <span class="vocab-word">Leverage</span>: use something to maximum advantage<br>
+                    <span class="vocab-word">Benchmark</span>: standard for comparison<br>
+                    <span class="vocab-word">Incentive</span>: motivation to do something<br>
+                    <span class="vocab-word">Sustainability</span>: ability to continue long-term<br>
+                    <span class="vocab-word">Synergy</span>: combined effect greater than sum of parts
+                </div>
+            </div>
+            <div class="content-level-2">
+                <div class="explanation">
+                    <p><span class="check">✅</span> Essential for meetings, presentations, and reports</p>
+                    <p><span class="check">✅</span> Shows professional competence</p>
+                    <p><span class="check">✅</span> International business uses English terminology</p>
+                </div>
+            </div>
+            <div class="content-level-3">
+                <div class="examples">
+                    <p><strong>Examples:</strong></p>
+                    <div class="example-item">
+                        "Our company's <strong>revenue</strong> increased by 15% this quarter."
+                        <button class="audio-btn" onclick="speakText('Our company\'s revenue increased by 15% this quarter.')">
+                            <i class="fas fa-volume-up"></i> Listen
+                        </button>
+                    </div>
+                    <div class="example-item">
+                        "We need to consider all <strong>stakeholders</strong> in this decision."
+                    </div>
+                    <div class="example-item">
+                        "<strong>Sustainability</strong> is now a key factor in business planning."
+                    </div>
+                </div>
+                <div class="formal-informal">
+                    <div class="formal">
+                        <div class="formal-label">Formal (Business):</div>
+                        "We should leverage our resources."
+                    </div>
+                    <div class="informal">
+                        <div class="informal-label">Informal:</div>
+                        "We should make the most of what we have."
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Academic Vocabulary -->
+        <div class="flashcard academic" onclick="revealContent(this)">
+            <div class="level-indicator c1-indicator">C1</div>
+            <div class="flashcard-header">
+                <span class="emoji">🎓</span> Academic Vocabulary
+            </div>
+            <div class="content-level-1">
+                <div class="question">Academic vocabulary for essays and research</div>
+                <div class="answer">
+                    <span class="vocab-word">Hypothesis</span>: testable explanation, theory<br>
+                    <span class="vocab-word">Methodology</span>: system of methods used<br>
+                    <span class="vocab-word">Paradigm</span>: typical example, pattern<br>
+                    <span class="vocab-word">Quantitative</span>: relating to numbers, measurable<br>
+                    <span class="vocab-word">Substantiate</span>: provide evidence for<br>
+                    <span class="vocab-word">Theoretical</span>: based on theory, not practical<br>
+                    <span class="vocab-word">Validate</span>: check or prove accuracy
+                </div>
+            </div>
+            <div class="content-level-2">
+                <div class="explanation">
+                    <p><span class="check">✅</span> Essential for university essays and research papers</p>
+                    <p><span class="check">✅</span> Shows academic literacy and critical thinking</p>
+                    <p><span class="check">✅</span> Used in scientific and humanities disciplines</p>
+                </div>
+            </div>
+            <div class="content-level-3">
+                <div class="examples">
+                    <p><strong>Examples:</strong></p>
+                    <div class="example-item">
+                        "The research <strong>methodology</strong> was clearly explained in chapter two."
+                        <button class="audio-btn" onclick="speakText('The research methodology was clearly explained in chapter two.')">
+                            <i class="fas fa-volume-up"></i> Listen
+                        </button>
+                    </div>
+                    <div class="example-item">
+                        "We need to <strong>substantiate</strong> our claims with reliable data."
+                    </div>
+                    <div class="example-item">
+                        "The study includes both <strong>quantitative</strong> and qualitative analysis."
+                    </div>
+                </div>
+                <div class="synonyms">
+                    <strong>Synonyms for academic writing:</strong> "demonstrate" (show), "illustrate" (give example), "conclude" (finish), "analyze" (examine).
+                </div>
+            </div>
+        </div>
+        
+        <!-- Phrasal Verbs B2+ -->
+        <div class="flashcard phrasal-b2" onclick="revealContent(this)">
+            <div class="level-indicator b2-indicator">B2+</div>
+            <div class="flashcard-header">
+                <span class="emoji">🔗</span> Phrasal Verbs B2+
+            </div>
+            <div class="content-level-1">
+                <div class="question">Advanced phrasal verbs for intermediate+ learners</div>
+                <div class="answer">
+                    <span class="vocab-word">Bring about</span>: cause to happen<br>
+                    <span class="vocab-word">Carry out</span>: perform, conduct<br>
+                    <span class="vocab-word">Come up with</span>: think of, produce<br>
+                    <span class="vocab-word">Fall through</span>: fail, not happen<br>
+                    <span class="vocab-word">Get across</span>: communicate successfully<br>
+                    <span class="vocab-word">Look into</span>: investigate, examine<br>
+                    <span class="vocab-word">Point out</span>: indicate, draw attention to
+                </div>
+            </div>
+            <div class="content-level-2">
+                <div class="explanation">
+                    <p><span class="check">✅</span> More complex than basic phrasal verbs</p>
+                    <p><span class="check">✅</span> Common in professional and academic English</p>
+                    <p><span class="check">✅</span> Often have more formal single-word equivalents</p>
+                </div>
+            </div>
+            <div class="content-level-3">
+                <div class="examples">
+                    <p><strong>Examples:</strong></p>
+                    <div class="example-item">
+                        "The new policy will <strong>bring about</strong> significant changes."
+                        <button class="audio-btn" onclick="speakText('The new policy will bring about significant changes.')">
+                            <i class="fas fa-volume-up"></i> Listen
+                        </button>
+                    </div>
+                    <div class="example-item">
+                        "We need to <strong>carry out</strong> more research before deciding."
+                    </div>
+                    <div class="example-item">
+                        "Can you <strong>point out</strong> any errors in this report?"
+                    </div>
+                </div>
+                <div class="usage-note">
+                    <strong>Formal equivalents:</strong> "bring about" = cause; "carry out" = implement; "look into" = investigate.
+                </div>
+            </div>
+        </div>
+        
+        <!-- C1 Idioms -->
+        <div class="flashcard idioms-c1" onclick="revealContent(this)">
+            <div class="level-indicator c1-indicator">C1</div>
+            <div class="flashcard-header">
+                <span class="emoji">🧠</span> C1 Idioms
+            </div>
+            <div class="content-level-1">
+                <div class="question">Advanced idioms for fluent expression</div>
+                <div class="answer">
+                    <span class="vocab-word">A double-edged sword</span>: something with advantages and disadvantages<br>
+                    <span class="vocab-word">Beat around the bush</span>: avoid saying directly<br>
+                    <span class="vocab-word">In the same boat</span>: in the same situation<br>
+                    <span class="vocab-word">On the same page</span>: in agreement<br>
+                    <span class="vocab-word">Read between the lines</span>: understand hidden meaning<br>
+                    <span class="vocab-word">The ball is in your court</span>: it's your decision/turn<br>
+                    <span class="vocab-word">Think outside the box</span>: think creatively
+                </div>
+            </div>
+            <div class="content-level-2">
+                <div class="explanation">
+                    <p><span class="check">✅</span> Shows cultural understanding and fluency</p>
+                    <p><span class="check">✅</span> Makes English sound more natural and native-like</p>
+                    <p><span class="check">✅</span> Common in business and social contexts</p>
+                </div>
+            </div>
+            <div class="content-level-3">
+                <div class="examples">
+                    <p><strong>Examples:</strong></p>
+                    <div class="example-item">
+                        "Technology is <strong>a double-edged sword</strong> - helpful but distracting."
+                        <button class="audio-btn" onclick="speakText('Technology is a double-edged sword - helpful but distracting.')">
+                            <i class="fas fa-volume-up"></i> Listen
+                        </button>
+                    </div>
+                    <div class="example-item">
+                        "Stop <strong>beating around the bush</strong> and tell me what you want."
+                    </div>
+                    <div class="example-item">
+                        "We need to <strong>think outside the box</strong> to solve this problem."
+                    </div>
+                </div>
+                <div class="tip">
+                    <p><strong>Tip:</strong> Use idioms sparingly in formal writing but frequently in speaking to sound natural.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Collocations -->
+        <div class="flashcard collocations" onclick="revealContent(this)">
+            <div class="level-indicator b1-indicator">B1/C1</div>
+            <div class="flashcard-header">
+                <span class="emoji">🧩</span> Collocations
+            </div>
+            <div class="content-level-1">
+                <div class="question">Word combinations that sound natural together</div>
+                <div class="answer">
+                    <span class="vocab-word">Heavy rain</span> (not "strong rain")<br>
+                    <span class="vocab-word">Make a decision</span> (not "do a decision")<br>
+                    <span class="vocab-word">Strong coffee</span> (not "powerful coffee")<br>
+                    <span class="vocab-word">Take a break</span> (not "make a break")<br>
+                    <span class="vocab-word">Do business</span> (not "make business")<br>
+                    <span class="vocab-word">Give a presentation</span> (not "make a presentation")<br>
+                    <span class="vocab-word">Keep a promise</span> (not "hold a promise")
+                </div>
+            </div>
+            <div class="content-level-2">
+                <div class="explanation">
+                    <p><span class="check">✅</span> Collocations make English sound natural</p>
+                    <p><span class="check">✅</span> Often don't translate directly from other languages</p>
+                    <p><span class="check">✅</span> Mastering collocations is key to fluency</p>
+                </div>
+            </div>
+            <div class="content-level-3">
+                <div class="examples">
+                    <p><strong>Examples:</strong></p>
+                    <div class="example-item">
+                        "We couldn't go out because of the <strong>heavy rain</strong>."
+                        <button class="audio-btn" onclick="speakText('We couldn\'t go out because of the heavy rain.')">
+                            <i class="fas fa-volume-up"></i> Listen
+                        </button>
+                    </div>
+                    <div class="example-item">
+                        "I need to <strong>make a decision</strong> by tomorrow."
+                    </div>
+                    <div class="example-item">
+                        "It's important to <strong>keep your promises</strong> in business."
+                    </div>
+                </div>
+                <div class="usage-note">
+                    <strong>Common patterns:</strong> adjective + noun (strong coffee), verb + noun (make a decision), verb + adverb (work hard).
+                </div>
+            </div>
+        </div>
+        
+        <!-- Practice - Formal vs Informal -->
+        <div class="flashcard practice" onclick="revealContent(this)">
+            <div class="level-indicator b1-indicator">B1/C1</div>
+            <div class="flashcard-header">
+                <span class="emoji">📝</span> Practice - Formal vs Informal
+            </div>
+            <div class="content-level-1">
+                <div class="question">Choose the more formal option</div>
+                <div class="practice-content">
+                    <div class="practice-item">
+                        <div class="practice-question">1. Which is more formal for business email?</div>
+                        <ul class="quiz-options">
+                            <li onclick="checkAnswer(this, 'I look forward to hearing from you')">I look forward to hearing from you</li>
+                            <li onclick="checkAnswer(this, 'Get back to me soon')">Get back to me soon</li>
+                            <li onclick="checkAnswer(this, 'Talk to you later')">Talk to you later</li>
+                        </ul>
+                        <div class="practice-answer" id="answer1"><span class="check">✅</span> <strong>"I look forward to hearing from you"</strong> - This is standard formal closing for business emails.</div>
+                    </div>
+                    <div class="practice-item">
+                        <div class="practice-question">2. Formal equivalent of "find out":</div>
+                        <ul class="quiz-options">
+                            <li onclick="checkAnswer(this, 'discover')">discover</li>
+                            <li onclick="checkAnswer(this, 'look for')">look for</li>
+                            <li onclick="checkAnswer(this, 'check out')">check out</li>
+                        </ul>
+                        <div class="practice-answer" id="answer2"><span class="check">✅</span> <strong>"discover"</strong> - In formal contexts, use "discover" or "ascertain" instead of "find out".</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Practice - Word Choice -->
+        <div class="flashcard practice" onclick="revealContent(this)">
+            <div class="level-indicator c1-indicator">C1</div>
+            <div class="flashcard-header">
+                <span class="emoji">🎯</span> Practice - Word Choice
+            </div>
+            <div class="content-level-1">
+                <div class="question">Choose the most precise vocabulary</div>
+                <div class="practice-content">
+                    <div class="practice-item">
+                        <div class="practice-question">1. Instead of "very big" in academic writing:</div>
+                        <ul class="quiz-options">
+                            <li onclick="checkAnswer(this, 'substantial')">substantial</li>
+                            <li onclick="checkAnswer(this, 'really big')">really big</li>
+                            <li onclick="checkAnswer(this, 'huge')">huge</li>
+                        </ul>
+                        <div class="practice-answer" id="answer3"><span class="check">✅</span> <strong>"substantial"</strong> - More precise and academic than "very big" or "huge".</div>
+                    </div>
+                    <div class="practice-item">
+                        <div class="practice-question">2. Formal way to say "get better":</div>
+                        <ul class="quiz-options">
+                            <li onclick="checkAnswer(this, 'improve')">improve</li>
+                            <li onclick="checkAnswer(this, 'get well')">get well</li>
+                            <li onclick="checkAnswer(this, 'fix up')">fix up</li>
+                        </ul>
+                        <div class="practice-answer" id="answer4"><span class="check">✅</span> <strong>"improve"</strong> - "Enhance" or "ameliorate" are even more formal alternatives.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Practice - Idioms in Context -->
+        <div class="flashcard practice" onclick="revealContent(this)">
+            <div class="level-indicator c1-indicator">C1</div>
+            <div class="flashcard-header">
+                <span class="emoji">💬</span> Practice - Idioms in Context
+            </div>
+            <div class="content-level-1">
+                <div class="question">Complete with the correct idiom</div>
+                <div class="practice-content">
+                    <div class="practice-item">
+                        <div class="practice-question">1. "After working for 5 hours straight, I need to _____."</div>
+                        <button class="show-answer" onclick="toggleAnswer(this)">Show Answer</button>
+                        <div class="practice-answer"><span class="check">✅</span> <strong>take a break</strong> - "After working for 5 hours straight, I need to take a break."</div>
+                    </div>
+                    <div class="practice-item">
+                        <div class="practice-question">2. "We're all _____ - everyone has financial problems right now."</div>
+                        <button class="show-answer" onclick="toggleAnswer(this)">Show Answer</button>
+                        <div class="practice-answer"><span class="check">✅</span> <strong>in the same boat</strong> - "We're all in the same boat - everyone has financial problems right now."</div>
+                    </div>
+                    <div class="practice-item">
+                        <div class="practice-question">3. "She never says what she means directly - you have to _____."</div>
+                        <button class="show-answer" onclick="toggleAnswer(this)">Show Answer</button>
+                        <div class="practice-answer"><span class="check">✅</span> <strong>read between the lines</strong> - "She never says what she means directly - you have to read between the lines."</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Vocabulary Building Tips -->
+        <div class="flashcard academic" onclick="revealContent(this)">
+            <div class="level-indicator b1-indicator">B1/C1</div>
+            <div class="flashcard-header">
+                <span class="emoji">💡</span> Vocabulary Building Strategies
+            </div>
+            <div class="content-level-1">
+                <div class="question">How to expand your vocabulary effectively</div>
+                <div class="tip">
+                    <p><strong>1. Read widely:</strong> Articles, books, reports in your field</p>
+                    <p><strong>2. Use context:</strong> Learn words from how they're used</p>
+                    <p><strong>3. Create word families:</strong> Learn related forms (decide → decision → decisive)</p>
+                    <p><strong>4. Learn collocations:</strong> Don't just learn words, learn how they combine</p>
+                    <p><strong>5. Active use:</strong> Use new words in writing and speaking immediately</p>
+                </div>
+            </div>
+            <div class="content-level-2">
+                <div class="explanation">
+                    <p><span class="check">✅</span> <strong>B1 Level:</strong> Focus on expanding range of common topics</p>
+                    <p><span class="check">✅</span> <strong>C1 Level:</strong> Develop precision and nuance in expression</p>
+                    <p><span class="check">✅</span> <strong>Advanced:</strong> Master formal and technical vocabulary</p>
+                </div>
+            </div>
+            <div class="content-level-3">
+                <div class="examples">
+                    <p><strong>Weekly study plan:</strong></p>
+                    <div class="example-item">
+                        <strong>Monday:</strong> Read 2 articles and highlight 5 new words
+                    </div>
+                    <div class="example-item">
+                        <strong>Tuesday:</strong> Create sentences with Monday's words
+                    </div>
+                    <div class="example-item">
+                        <strong>Wednesday:</strong> Study word families (noun/verb/adjective forms)
+                    </div>
+                    <div class="example-item">
+                        <strong>Thursday:</strong> Practice collocations and phrases
+                    </div>
+                    <div class="example-item">
+                        <strong>Friday:</strong> Use new vocabulary in writing or speaking
+                    </div>
+                    <div class="example-item">
+                        <strong>Weekend:</strong> Review and consolidate
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <footer>
+        <p>Material created for advanced English study • Vocabulary B1 & C1 • © @AdvancedEnglishFree</p>
+        <p>Total Flashcards: <strong>11</strong> • Categories: <strong>8</strong> • Levels: <strong>B1 & C1</strong></p>
+    </footer>
+
+    <script>
+        // Function to reveal content in flashcards
+        function revealContent(card) {
+            // Find all content levels
+            const level1 = card.querySelector('.content-level-1');
+            const level2 = card.querySelector('.content-level-2');
+            const level3 = card.querySelector('.content-level-3');
+            
+            // Reveal sequence
+            if (!level1.classList.contains('active')) {
+                level1.classList.add('active');
+            } else if (level2 && !level2.classList.contains('active')) {
+                level2.classList.add('active');
+            } else if (level3 && !level3.classList.contains('active')) {
+                level3.classList.add('active');
+            } else {
+                // If all are active, reset
+                if (level1) level1.classList.remove('active');
+                if (level2) level2.classList.remove('active');
+                if (level3) level3.classList.remove('active');
+            }
+        }
+        
+        // Function to show/hide answers in exercises
+        function toggleAnswer(button) {
+            const answer = button.nextElementSibling;
+            answer.classList.toggle('active');
+            
+            // Prevent event propagation
+            if (event) event.stopPropagation();
+        }
+        
+        // Function to check answers in quiz
+        function checkAnswer(element, correctAnswer) {
+            const optionText = element.textContent.trim();
+            const isCorrect = optionText === correctAnswer;
+            
+            // Remove previous answer classes
+            const parent = element.parentElement;
+            const options = parent.querySelectorAll('li');
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+            
+            // Mark selected answer
+            if (isCorrect) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('incorrect');
+                
+                // Mark correct answer
+                options.forEach(opt => {
+                    if (opt.textContent.trim() === correctAnswer) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+            
+            // Show explained answer
+            const answerId = parent.parentElement.id ? parent.parentElement.id.replace('options', 'answer') : '';
+            const answerElement = document.getElementById(answerId) || parent.nextElementSibling;
+            if (answerElement && answerElement.classList.contains('practice-answer')) {
+                answerElement.classList.add('active');
+            }
+            
+            if (event) event.stopPropagation();
+        }
+        
+        // Function to filter cards by category
+        function filterCards(category) {
+            const cards = document.querySelectorAll('.flashcard');
+            
+            cards.forEach(card => {
+                if (category === 'all') {
+                    card.classList.remove('hidden');
+                } else if (card.classList.contains(category)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+        
+        // Function for text-to-speech
+        function speakText(text) {
+            // Prevent propagation
+            if (event) event.stopPropagation();
+            
+            // Use Web Speech API
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                utterance.volume = 1;
+                
+                // Try to set an English voice
+                const voices = speechSynthesis.getVoices();
+                const englishVoice = voices.find(voice => 
+                    voice.lang.includes('en-US') || voice.lang.includes('en-GB')
+                );
+                if (englishVoice) {
+                    utterance.voice = englishVoice;
+                }
+                
+                speechSynthesis.speak(utterance);
+            } else {
+                alert("Your browser doesn't support speech synthesis. Try Chrome, Edge, or Safari.");
+            }
+        }
+        
+        // Initialize flashcards
+        document.addEventListener('DOMContentLoaded', function() {
+            // Open first level of first flashcard
+            const firstCard = document.querySelector('.flashcard');
+            if (firstCard) {
+                const firstContent = firstCard.querySelector('.content-level-1');
+                if (firstContent) firstContent.classList.add('active');
+            }
+            
+            // Load voices for speech synthesis
+            if (speechSynthesis.getVoices().length === 0) {
+                speechSynthesis.addEventListener('voiceschanged', function() {
+                    console.log("Voices loaded:", speechSynthesis.getVoices().length);
+                });
+            }
+        });
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</body>
+</html>
